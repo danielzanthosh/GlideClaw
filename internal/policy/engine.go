@@ -1,6 +1,3 @@
-// Copyright 2026 Daniel
-// Licensed under the Apache License, Version 2.0
-
 package policy
 
 import (
@@ -22,10 +19,9 @@ const (
 )
 
 type Decision struct {
-	Tier        Tier
-	Allowed     bool
-	HardBlocked bool
-	Reason      string
+	Tier    Tier
+	Allowed bool
+	Reason  string
 }
 
 type Engine struct {
@@ -40,26 +36,22 @@ func NewEngine(exec config.ExecutionConfig, boot bootstrap.Profile) *Engine {
 func (e *Engine) Evaluate(command string, workdir string) Decision {
 	command = strings.TrimSpace(command)
 	if command == "" {
-		return Decision{Tier: Tier3, Allowed: false, HardBlocked: true, Reason: "empty command"}
+		return Decision{Tier: Tier3, Allowed: false, Reason: "empty command"}
 	}
-	for _, b := range e.exec.HardBlockPrefixes {
+	for _, b := range e.exec.Tier3DenyPrefix {
 		if strings.HasPrefix(command, b) {
-			return Decision{Tier: Tier3, Allowed: false, HardBlocked: true, Reason: "blocked by hard denylist"}
+			return Decision{Tier: Tier3, Allowed: false, Reason: "blocked by hard denylist"}
 		}
 	}
 	for _, b := range e.boot.BlockedActions {
 		if strings.Contains(command, b) {
-			return Decision{Tier: Tier3, Allowed: false, HardBlocked: true, Reason: "blocked by BOOTSTRAP"}
+			return Decision{Tier: Tier3, Allowed: false, Reason: "blocked by BOOTSTRAP"}
 		}
 	}
+
 	for _, a := range e.exec.Tier0Allow {
 		if command == a || strings.HasPrefix(command, a+" ") {
 			return Decision{Tier: Tier0, Allowed: true, Reason: "tier0 allow"}
-		}
-	}
-	for _, t3 := range e.exec.Tier3EscalationPrefixes {
-		if strings.HasPrefix(command, t3) {
-			return Decision{Tier: Tier3, Allowed: true, Reason: "tier3 escalation required"}
 		}
 	}
 	if e.exec.SafeMode {
@@ -82,8 +74,4 @@ func (e *Engine) ValidateWorkdir(path string) error {
 		}
 	}
 	return errors.New("workdir is outside approved workspaces")
-}
-
-func (e *Engine) SafeModeOn() bool {
-	return e.exec.SafeMode
 }

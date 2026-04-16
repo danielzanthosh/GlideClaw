@@ -53,3 +53,20 @@ After receiving a report, maintainers should:
 2. Reproduce and triage severity.
 3. Prepare and release a fix.
 4. Publish a short advisory/changelog note once users can patch.
+## Reporting a Vulnerability
+
+If you discover a security issue, please report it responsibly.
+
+Do NOT open a public issue.
+
+Contact:
+danielzanthosh@gmail.com
+
+## Supported Versions
+
+Only the latest version is supported.
+
+## Notes
+
+GlideClaw executes commands and integrates with external services.
+Users must configure it responsibly.

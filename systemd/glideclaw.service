@@ -1,5 +1,5 @@
 [Unit]
-Description=GlideClaw personal gateway agent (scaffold runtime)
+Description=GlideClaw personal gateway agent
 After=network-online.target
 Wants=network-online.target
 
@@ -10,19 +10,14 @@ Group=glideclaw
 WorkingDirectory=/var/lib/glideclaw
 EnvironmentFile=-/etc/glideclaw/glideclaw.env
 ExecStart=/usr/local/bin/glideclaw run
-Restart=on-failure
+Restart=always
 RestartSec=5
 TimeoutStopSec=30
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ProtectControlGroups=true
-ProtectKernelTunables=true
-ProtectKernelModules=true
-LockPersonality=true
-MemoryDenyWriteExecute=true
-ReadWritePaths=/var/lib/glideclaw /etc/glideclaw
+ReadWritePaths=/var/lib/glideclaw
 UMask=0077
 LimitNOFILE=4096
 
