@@ -1,6 +1,3 @@
-// Copyright 2026 Daniel
-// Licensed under the Apache License, Version 2.0
-
 package telegram
 
 import (
@@ -26,6 +23,5 @@ func NewAdapter(cfg config.TelegramConfig, store *db.Store, policy *policy.Engin
 func (a *Adapter) Start(ctx context.Context) error {
 	_ = ctx
 	// Skeleton: implement long-polling, pairing checks, DM/group routing, and attachment intake.
-	// Tier3 UX note: password challenge replies must be ephemeral and never persisted as message history.
 	return nil
 }

@@ -1,39 +1,9 @@
-// Copyright 2026 Daniel
-// Licensed under the Apache License, Version 2.0
-
 package db
 
 const schemaSQL = `
 PRAGMA journal_mode=WAL;
 PRAGMA foreign_keys=ON;
 
-
-CREATE TABLE IF NOT EXISTS settings (
-  key TEXT PRIMARY KEY,
-  value TEXT NOT NULL,
-  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TABLE IF NOT EXISTS connectors (
-  name TEXT PRIMARY KEY,
-  enabled INTEGER NOT NULL DEFAULT 0,
-  auth_status TEXT NOT NULL DEFAULT 'not_configured',
-  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TABLE IF NOT EXISTS memories (
-  id TEXT PRIMARY KEY,
-  scope TEXT,
-  content TEXT NOT NULL,
-  tags TEXT,
-  created_at DATETIME NOT NULL
-);
-CREATE TABLE IF NOT EXISTS archive_index (
-  id TEXT PRIMARY KEY,
-  object_ref TEXT NOT NULL,
-  location TEXT NOT NULL,
-  checksum TEXT,
-  state TEXT NOT NULL,
-  created_at DATETIME NOT NULL
-);
 CREATE TABLE IF NOT EXISTS sessions (
   id TEXT PRIMARY KEY,
   surface TEXT NOT NULL,
