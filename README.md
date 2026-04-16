@@ -15,3 +15,8 @@ go run ./cmd/glideclaw doctor
 ```
 
 Read the full implementation blueprint in `docs/ARCHITECTURE.md`.
+
+## License
+
+This project is licensed under the Apache License 2.0.
+See the LICENSE file for details.
