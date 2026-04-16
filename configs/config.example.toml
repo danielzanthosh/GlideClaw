@@ -1,0 +1,60 @@
+# GlideClaw example config (no real secrets)
+profile = "lite"
+safe_mode = true
+data_dir = "/home/glideclaw/.local/share/glideclaw"
+bootstrap_path = "/home/glideclaw/.config/glideclaw/BOOTSTRAP.md"
+
+[logging]
+level = "info"
+path = "/home/glideclaw/.local/share/glideclaw/logs/glideclaw.jsonl"
+
+[archive]
+hot_dir = "/home/glideclaw/.local/share/glideclaw/cache/hot"
+restore_cache_dir = "/home/glideclaw/.local/share/glideclaw/cache/restore"
+offload_after_hours = 168
+max_hot_mb = 512
+dry_run = false
+
+[execution]
+default_timeout_sec = 60
+workspace_allow = ["/home/glideclaw/work"]
+tier0_allow = ["pwd", "ls", "cat", "find", "du", "df", "git status", "git diff"]
+tier3_escalation_prefixes = ["rm ", "git push", "git commit", "systemctl restart", "vercel --prod", "apt "]
+hard_block_prefixes = ["sudo", "useradd", "iptables", "mkfs", "fdisk", "parted", "rm -rf /"]
+
+[security]
+escalation_enabled = true
+elevation_mode = "time_window" # or "single"
+elevation_window_seconds = 60
+max_attempts = 5
+lockout_seconds = 60
+require_double_confirmation = true
+critical_confirm_text = "DELETE_PRODUCTION_DATA"
+allow_tier3_in_safe_mode = false
+secrets_dir = "/home/glideclaw/.local/share/glideclaw/secrets"
+
+[connectors.google_drive]
+enabled = false
+# token_path = "/home/glideclaw/.local/share/glideclaw/secrets/google-drive.token.json"
+
+[connectors.google_gmail]
+enabled = false
+
+[connectors.google_calendar]
+enabled = false
+
+[connectors.github]
+enabled = false
+# token = "<PLACEHOLDER_ONLY_DO_NOT_COMMIT>"
+
+[connectors.vercel]
+enabled = false
+# token = "<PLACEHOLDER_ONLY_DO_NOT_COMMIT>"
+
+[telegram]
+enabled = false
+bot_token = "<PLACEHOLDER_ONLY_DO_NOT_COMMIT>"
+admin_chat_ids = [123456789]
+poll_seconds = 2
+allow_groups = false
+max_attachment_mb = 20

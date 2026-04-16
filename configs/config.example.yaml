@@ -1,0 +1,80 @@
+profile: lite
+data_dir: /var/lib/glideclaw
+
+bootstrap:
+  path: /var/lib/glideclaw/BOOTSTRAP.md
+
+database:
+  path: /var/lib/glideclaw/state/glideclaw.db
+
+gateway:
+  session_ttl_hours: 168
+  max_concurrency: 2
+
+telegram:
+  enabled: true
+  bot_token_env: GLIDECLAW_TELEGRAM_BOT_TOKEN
+  poll_seconds: 2
+  allow_groups: false
+  admin_chat_ids: [123456789]
+  max_attachment_mb: 20
+
+terminal:
+  enabled: true
+  interactive_chat: true
+
+connectors:
+  google_drive:
+    enabled: true
+    scopes: ["https://www.googleapis.com/auth/drive.file"]
+  google_gmail:
+    enabled: false
+    scopes: ["https://www.googleapis.com/auth/gmail.readonly"]
+  google_calendar:
+    enabled: false
+    scopes: ["https://www.googleapis.com/auth/calendar.readonly"]
+  github:
+    enabled: true
+    auth_mode: fine_grained_pat
+  vercel:
+    enabled: true
+
+memory:
+  working_turn_limit: 24
+  session_message_limit: 200
+  recency_bias: 0.7
+  importance_bias: 0.3
+
+archive:
+  hot_dir: /var/lib/glideclaw/hot
+  restore_cache_dir: /var/lib/glideclaw/restore-cache
+  offload_after_hours: 168
+  max_hot_mb: 512
+  dry_run: false
+
+execution:
+  safe_mode: true
+  default_timeout_sec: 60
+  workspace_allow: ["/srv/projects", "/home/op"]
+  tier0_allow: ["pwd", "ls", "cat", "find", "du", "df", "git status", "git diff"]
+  tier3_escalation_prefixes: ["rm ", "git push", "git commit", "systemctl restart", "vercel --prod", "apt "]
+  hard_block_prefixes: ["sudo", "useradd", "iptables", "mkfs", "fdisk", "parted", "rm -rf /"]
+
+security:
+  escalation_enabled: true
+  elevation_mode: time_window # single | time_window
+  elevation_window_seconds: 60
+  max_attempts: 5
+  lockout_seconds: 60
+  require_double_confirmation: true
+  critical_confirm_text: DELETE_PRODUCTION_DATA
+  allow_tier3_in_safe_mode: false
+  secrets_dir: /var/lib/glideclaw/secrets
+
+tasks:
+  tick_seconds: 30
+  max_jobs_per_tick: 2
+
+logging:
+  level: info
+  path: /var/lib/glideclaw/logs/glideclaw.jsonl

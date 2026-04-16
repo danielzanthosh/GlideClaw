@@ -1,0 +1,49 @@
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+secrets.json
+secrets.enc.json
+**/*token*
+**/*auth*.json
+
+# Local runtime state
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.wal
+*.shm
+*.pid
+*.sock
+state/
+cache/
+restore-cache/
+hot/
+archive/
+tmp/
+logs/
+var/
+
+# GlideClaw local defaults
+.config/glideclaw/
+.local/share/glideclaw/
+
+# Build artifacts
+bin/
+dist/
+*.out
+*.test
+coverage.out
+*.coverprofile
+
+# OS / editor junk
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
