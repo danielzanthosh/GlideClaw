@@ -1,6 +1,3 @@
-// Copyright 2026 Daniel
-// Licensed under the Apache License, Version 2.0
-
 package config
 
 import (
@@ -19,7 +16,6 @@ type Config struct {
 	Telegram  TelegramConfig
 	Archive   ArchiveConfig
 	Execution ExecutionConfig
-	Security  SecurityConfig
 	Logging   LoggingConfig
 }
 
@@ -41,24 +37,11 @@ type ArchiveConfig struct {
 }
 
 type ExecutionConfig struct {
-	SafeMode                bool
-	WorkspaceAllow          []string
-	Tier0Allow              []string
-	Tier3EscalationPrefixes []string
-	HardBlockPrefixes       []string
-	DefaultTimeoutSec       int
-}
-
-type SecurityConfig struct {
-	EscalationEnabled         bool
-	ElevationMode             string
-	ElevationWindowSeconds    int
-	MaxAttempts               int
-	LockoutSeconds            int
-	RequireDoubleConfirmation bool
-	CriticalConfirmText       string
-	AllowTier3InSafeMode      bool
-	SecretsDir                string
+	SafeMode          bool
+	WorkspaceAllow    []string
+	Tier0Allow        []string
+	Tier3DenyPrefix   []string
+	DefaultTimeoutSec int
 }
 
 type LoggingConfig struct {
@@ -108,12 +91,8 @@ func (c *Config) Normalize() error {
 	c.Logging.Path = expand(c.Logging.Path, c.DataDir)
 	c.Archive.HotDir = expand(c.Archive.HotDir, c.DataDir)
 	c.Archive.RestoreCacheDir = expand(c.Archive.RestoreCacheDir, c.DataDir)
-	c.Security.SecretsDir = expand(c.Security.SecretsDir, c.DataDir)
 	if c.Bootstrap.Path == "" {
 		c.Bootstrap.Path = filepath.Join(c.DataDir, "BOOTSTRAP.md")
-	}
-	if c.Security.ElevationMode != "single" && c.Security.ElevationMode != "time_window" {
-		return errors.New("security.elevation_mode must be single or time_window")
 	}
 	return nil
 }

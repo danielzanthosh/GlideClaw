@@ -57,19 +57,12 @@ execution:
   default_timeout_sec: 60
   workspace_allow: ["/srv/projects", "/home/op"]
   tier0_allow: ["pwd", "ls", "cat", "find", "du", "df", "git status", "git diff"]
-  tier3_escalation_prefixes: ["rm ", "git push", "git commit", "systemctl restart", "vercel --prod", "apt "]
-  hard_block_prefixes: ["sudo", "useradd", "iptables", "mkfs", "fdisk", "parted", "rm -rf /"]
+  tier3_deny_prefix: ["sudo", "useradd", "iptables", "mkfs", "fdisk", "parted", "rm -rf /"]
 
 security:
-  escalation_enabled: true
-  elevation_mode: time_window # single | time_window
-  elevation_window_seconds: 60
-  max_attempts: 5
-  lockout_seconds: 60
-  require_double_confirmation: true
-  critical_confirm_text: DELETE_PRODUCTION_DATA
-  allow_tier3_in_safe_mode: false
-  secrets_dir: /var/lib/glideclaw/secrets
+  secret_mode: file_encrypted
+  max_parallel_actions: 2
+  pairing_ttl_minutes: 10
 
 tasks:
   tick_seconds: 30
